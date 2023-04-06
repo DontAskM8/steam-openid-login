@@ -8,6 +8,6 @@ const openid = new SteamOpenId({
 openid.login({
 	returnUrl: "https://example.com/return",
 	realm: "https://example.com"
-}).then(res => {
-	// res: The return url 
+}).then({ url, cookies } => {
+	// do something with the url or cookie
 })
