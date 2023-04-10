@@ -12,6 +12,7 @@ class SteamOpenId {
 		this.steamSession = opts.session.replace(/\n/g, "") ?? null
 		this.nounceCookie = ""
 		this.jar = new tough.CookieJar()
+		this.agent = opts.agent
 	}
 	async login({
 		returnUrl,
@@ -31,7 +32,8 @@ class SteamOpenId {
 				},
 				headers: {
 					"cookie": self.steamSession
-				}
+				},
+				httpsAgent: self.agent
 			})
 			
 			var nounce = res.headers["set-cookie"].find(x => x.includes("sessionidSecureOpenIDNonce"))
@@ -55,7 +57,8 @@ class SteamOpenId {
 				maxRedirects: 0,
 				validateStatus: function(status){
 					return status == 302
-				}
+				},
+				httpsAgent: self.agent
 			})
 			
 			var backToSite = await axios.get(loginRes.headers.location, {
@@ -72,6 +75,7 @@ class SteamOpenId {
 					"sec-fetch-user": "?1",
 					"upgrade-insecure-requests": "1",
 				},
+				httpsAgent: self.agent,
 				validateStatus: (status) => status == 302,
 				maxRedirects: 0
 			})
