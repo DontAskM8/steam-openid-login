@@ -76,8 +76,8 @@ class SteamOpenId {
 					"upgrade-insecure-requests": "1",
 				},
 				httpsAgent: self.agent,
-				validateStatus: (status) => status == 302,
-				maxRedirects: 0
+				validateStatus: (status) => true,
+				maxRedirects: 0,
 			})
 			
 			return {
